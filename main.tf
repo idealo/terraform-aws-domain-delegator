@@ -1,7 +1,12 @@
 ## ORG ID o-qwoiuffvxt
 
+locals {
+    domain_split = split(".", var.subdomain_name)
+    domain_name  = join(".", slice(local.domain_split, -2, 2))
+}
+
 data "aws_route53_zone" "primary" {
-    name = var.domain_name
+    name = local.domain_name
 }
 
 data "aws_sts_caller_identity" "current" {}
