@@ -2,7 +2,7 @@
 
 locals {
     domain_split = split(".", var.subdomain_name)
-    domain_name  = join(".", tolist(element(local.domain_split, length(local.domain_split)-2),element(local.domain_split, length(local.domain_split)-1)))
+    domain_name  = join(".", tolist(["${element(local.domain_split, length(local.domain_split)-2)}","${element(local.domain_split, length(local.domain_split)-1)}"]))
 }
 
 data "aws_route53_zone" "primary" {
