@@ -2,7 +2,7 @@
 
 locals {
     domain_split = split(".", var.subdomain_name)
-    domain_name  = join(".", list(local.domain_split[-2], local.domain_split[-1]))
+    domain_name  = join(".", tolist(local.domain_split[-2], local.domain_split[-1]))
 }
 
 data "aws_route53_zone" "primary" {
@@ -25,7 +25,7 @@ resource "aws_dynamodb_table_item" "example" {
   item = <<ITEM
 {
   "name": {"S": ${var.subdomain_name}},
-  "owner": {"N": ${data.aws_sts_caller_identity.current.account_id}},
+  "owner": {"N": ${data.aws_caller_identity.current.account_id}},
 }
 ITEM
 }
