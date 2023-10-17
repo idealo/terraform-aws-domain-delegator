@@ -20,14 +20,11 @@ resource "aws_route53_record" "delegation" {
 }
 
 resource "aws_dynamodb_table_item" "example" {
-  table_name = "zones-stg"
-  hash_key   = "name"
-  item = <<ITEM
-{
-  "name": {"S": ${var.subdomain_name}},
-  "owner": {"S": ${data.aws_caller_identity.current.account_id}},
+    table_name = "zones-stg"
+    hash_key   = "name"
+    item = jsonencode({
+        name  = { S = var.subdomain_name },
+        owner = { N = data.aws_caller_identity.current.account_id }
+    })
 }
-ITEM
-}
-
 
