@@ -25,7 +25,7 @@ resource "aws_dynamodb_table_item" "example" {
   item = <<ITEM
 {
   "name": {"S": ${var.subdomain_name}},
-  "owner": {"N": ${data.aws_caller_identity.current.account_id}},
+  "owner": {"S": ${data.aws_caller_identity.current.account_id}},
 }
 ITEM
 }
