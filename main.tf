@@ -2,14 +2,14 @@
 
 locals {
     domain_split = split(".", var.subdomain_name)
-    domain_name  = join(".", slice(local.domain_split, -2, 2))
+    domain_name  = join(".", list(local.domain_split[-2], local.domain_split[-1]))
 }
 
 data "aws_route53_zone" "primary" {
     name = local.domain_name
 }
 
-data "aws_sts_caller_identity" "current" {}
+data "aws_caller_identity" "current" {}
 
 resource "aws_route53_record" "delegation" {
     zone_id = data.aws_route53_zone.primary.zone_id
